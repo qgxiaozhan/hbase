@@ -6406,10 +6406,10 @@ public class TestHRegion {
 
     this.region = initHRegion(tableName, method, CONF, fam1);
     try {
-      long beforeMutate = this.region.writeRequestsCount.longValue();
+      long wrcBeforeMutate = this.region.writeRequestsCount.longValue();
       this.region.mutateRow(rm);
-      long afterMutate = this.region.writeRequestsCount.longValue();
-      Assert.assertNotEquals(beforeMutate, afterMutate);
+      long wrcAfterMutate = this.region.writeRequestsCount.longValue();
+      Assert.assertEquals(wrcBeforeMutate + rm.getMutations().size(), wrcAfterMutate);
     } finally {
       HBaseTestingUtility.closeRegionAndWAL(this.region);
       this.region = null;
